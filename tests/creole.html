@@ -301,6 +301,21 @@ var tests = [
     input:  "Some text -- Some more -- strike text--",
     output: "<p>Some text &mdash; Some more &mdash; strike text<strike></strike></p>"
   },
+  { // Test ##monospace##
+    name:   "monospace",
+    input:  "##monospace##",
+    output: "<p><tt>monospace</tt></p>"
+  },
+  { // Test runaway ##monospace
+    name:   "Runaway monospace #1",
+    input:  "##monospace",
+    output: "<p><tt>monospace</tt></p>"
+  },
+  {
+    name:   "Runaway monospace #2",
+    input:  "## monospace #",
+    output: "<p><tt> monospace #</tt></p>"
+  },
   { // Test **strong**
     name:   "Strong",
     input:  "**Strong**",
@@ -451,6 +466,11 @@ var tests = [
     name:   "Escaped strike ending",
     input:  "Plain --strike~-- strike too",
     output: "<p>Plain <strike>strike<span class=\"escaped\">-</span>- strike too</strike></p>"
+  },
+  {
+    name:   "Escaped monospace ending",
+    input:  "Plain ##monospace ~## monospace too",
+    output: "<p>Plain <tt>monospace <span class=\"escaped\">#</span># monospace too</tt></p>"
   },
   {
     name:   "Escaped strong ending",
