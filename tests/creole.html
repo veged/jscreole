@@ -316,6 +316,51 @@ var tests = [
     input:  "## monospace #",
     output: "<p><tt> monospace #</tt></p>"
   },
+  { // Test ^^superscript^^
+    name:   "superscript",
+    input:  "^^superscript^^",
+    output: "<p><sup>superscript</sup></p>"
+  },
+  { // Test runaway ^^superscript
+    name:   "Runaway superscript #1",
+    input:  "^^superscript",
+    output: "<p><sup>superscript</sup></p>"
+  },
+  {
+    name:   "Runaway superscript #2",
+    input:  "^^ superscript ^",
+    output: "<p><sup> superscript ^</sup></p>"
+  },
+  { // Test ,,subscript,,
+    name:   "subscript",
+    input:  ",,subscript,,",
+    output: "<p><sub>subscript</sub></p>"
+  },
+  { // Test runaway ,,subscript
+    name:   "Runaway subscript #1",
+    input:  ",,subscript",
+    output: "<p><sub>subscript</sub></p>"
+  },
+  {
+    name:   "Runaway subscript #2",
+    input:  ",, subscript ,",
+    output: "<p><sub> subscript ,</sub></p>"
+  },
+  { // Test __underline__
+    name:   "underline",
+    input:  "__underline__",
+    output: "<p><u>underline</u></p>"
+  },
+  { // Test runaway __underline
+    name:   "Runaway underline #1",
+    input:  "__underline",
+    output: "<p><u>underline</u></p>"
+  },
+  {
+    name:   "Runaway underline #2",
+    input:  "__ underline _",
+    output: "<p><u> underline _</u></p>"
+  },
   { // Test **strong**
     name:   "Strong",
     input:  "**Strong**",
@@ -466,6 +511,21 @@ var tests = [
     name:   "Escaped strike ending",
     input:  "Plain --strike~-- strike too",
     output: "<p>Plain <strike>strike<span class=\"escaped\">-</span>- strike too</strike></p>"
+  },
+  {
+    name:   "Escaped superscript ending",
+    input:  "Plain ^^superscript ~^^ superscript too",
+    output: "<p>Plain <sup>superscript <span class=\"escaped\">^</span>^ superscript too</sup></p>"
+  },
+  {
+    name:   "Escaped subscript ending",
+    input:  "Plain ,,subscript ~,, subscript too",
+    output: "<p>Plain <sub>subscript <span class=\"escaped\">,</span>, subscript too</sub></p>"
+  },
+  {
+    name:   "Escaped underline ending",
+    input:  "Plain __underline ~__ underline too",
+    output: "<p>Plain <u>underline <span class=\"escaped\">_</span>_ underline too</u></p>"
   },
   {
     name:   "Escaped monospace ending",

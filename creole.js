@@ -190,6 +190,14 @@ Parse.Simple.Creole = function(options) {
         return format[0] + link + format[1];
     };
 
+    var makeDubleSymbolRule = function(tag, symbolRegex) {
+        return { tag: tag, capture: 1,
+            regex: symbolRegex + symbolRegex +
+                '([^' + symbolRegex + '~]*((' + symbolRegex +
+                    '(?!' + symbolRegex + ')|~(.|(?=\n)|$))[^' + symbolRegex + '~]*)*)' +
+                '(' + symbolRegex + symbolRegex + '|\n|$)' };
+    };
+
     var g = {
         hr: { tag: 'hr', regex: /(^|\n)\s*----\s*(\n|$)/ },
 
@@ -226,12 +234,13 @@ Parse.Simple.Creole = function(options) {
             regex: /(^|\n)([ \t]*\S.*(\n|$))+/ },
         text: { capture: 0, regex: /(^|\n)([ \t]*[^\s].*(\n|$))+/ },
 
-        monospace: { tag: 'tt', capture: 1,
-            regex: /##([^#~]*((#(?!#)|~(.|(?=\n)|$))[^#~]*)*)(##|\n|$)/ },
-        strike: { tag: 'strike', capture: 1,
-            regex: /--([^-~]*((-(?!-)|~(.|(?=\n)|$))[^-~]*)*)(--|\n|$)/ },
-        strong: { tag: 'strong', capture: 1,
-            regex: /\*\*([^*~]*((\*(?!\*)|~(.|(?=\n)|$))[^*~]*)*)(\*\*|\n|$)/ },
+        monospace: makeDubleSymbolRule('tt', '#'),
+        superscript: makeDubleSymbolRule('sup', '\\^'),
+        subscript: makeDubleSymbolRule('sub', ','),
+        underline: makeDubleSymbolRule('u', '_'),
+        strike: makeDubleSymbolRule('strike', '-'),
+        strong: makeDubleSymbolRule('strong', '\\*'),
+
         em: { tag: 'em', capture: 1,
             regex: '\\/\\/(((?!' + rx.uriPrefix + ')[^\\/~])*' +
                    '((' + rx.rawUri + '|\\/(?!\\/)|~(.|(?=\\n)|$))' +
@@ -345,8 +354,23 @@ Parse.Simple.Creole = function(options) {
     g.h1.children = g.h2.children = g.h3.children =
             g.h4.children = g.h5.children = g.h6.children =
             g.singleLine.children = g.paragraph.children =
-            g.text.children = g.monospace.children = g.strike.children = g.strong.children = g.em.children =
-        [ g.escapedSequence, g.mdash, g.monospace, g.strike, g.strong, g.em, g.br, g.rawUri,
+            g.text.children =
+            g.monospace.children =
+            g.superscript.children =
+            g.subscript.children =
+            g.underline.children =
+            g.strike.children =
+            g.strong.children =
+            g.em.children =
+        [ g.escapedSequence, g.mdash,
+            g.monospace,
+            g.superscript,
+            g.subscript,
+            g.underline,
+            g.strike,
+            g.strong,
+            g.em,
+            g.br, g.rawUri,
             g.namedUri, g.namedInterwikiLink, g.namedLink,
             g.unnamedUri, g.unnamedInterwikiLink, g.unnamedLink,
             g.tt, g.img ];
