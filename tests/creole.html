@@ -39,10 +39,10 @@ var tests = [
     input:  "# Item\n## Subitem",
     output: "<ol><li> Item<ol>\n<li> Subitem</li></ol></li></ol>"
   },
-  { // Test a sublist without an initial tag (should not make a list)
+  { // Test a sublist without an initial tag (should not make a list, but can make monospace)
     name:   "Ordered sublist without initial tag",
     input:  "## Sublist item",
-    output: "<p>## Sublist item</p>"
+    output: "<p><tt> Sublist item</tt></p>"
   },
   { // Test an unordered list with an ordered sublist
     name:   "Unordered item with ordered sublist",
