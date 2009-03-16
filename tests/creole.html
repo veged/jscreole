@@ -271,6 +271,36 @@ var tests = [
     input:  "Inline {{{tt}}} example {{{here}}}!",
     output: "<p>Inline <tt>tt</tt> example <tt>here</tt>!</p>"
   },
+  { // Test --strike--
+    name:   "strike",
+    input:  "--strike--",
+    output: "<p><strike>strike</strike></p>"
+  },
+  { // Test runaway --strike
+    name:   "Runaway strike #1",
+    input:  "--strike",
+    output: "<p><strike>strike</strike></p>"
+  },
+  {
+    name:   "Runaway strike #2",
+    input:  "-- strike -",
+    output: "<p><strike> strike -</strike></p>"
+  },
+  { // Test mdash
+    name:   "Mdash",
+    input:  "Some text -- Some more text",
+    output: "<p>Some text &mdash; Some more text</p>"
+  },
+  { // Test mdash and strike
+    name:   "Mdash and strike",
+    input:  "Some text -- Some more --strike text--",
+    output: "<p>Some text &mdash; Some more <strike>strike text</strike></p>"
+  },
+  { // Test mdash and strike #2
+    name:   "Mdash and strike",
+    input:  "Some text -- Some more -- strike text--",
+    output: "<p>Some text &mdash; Some more &mdash; strike text<strike></strike></p>"
+  },
   { // Test **strong**
     name:   "Strong",
     input:  "**Strong**",
@@ -416,6 +446,11 @@ var tests = [
     name:   "Escaped URL",
     input:  "~http://link.org",
     output: "<p><span class=\"escaped\">http://link.org</span></p>"
+  },
+  {
+    name:   "Escaped strike ending",
+    input:  "Plain --strike~-- strike too",
+    output: "<p>Plain <strike>strike<span class=\"escaped\">-</span>- strike too</strike></p>"
   },
   {
     name:   "Escaped strong ending",
